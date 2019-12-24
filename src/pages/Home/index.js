@@ -10,9 +10,7 @@ export default function Home() {
           src="https://images.lojanike.com.br/290x290/produto/180462_1775262_20191029224607.png"
           alt="dr"
         />
-        <strong className="name">
-          Tênis Nike Zoom Pegasus Turbo Shield Masculino
-        </strong>
+        <strong>Tênis Nike Zoom Pegasus Turbo Shield Masculino</strong>
         <span>R$ 999,00</span>
 
         <Button>
