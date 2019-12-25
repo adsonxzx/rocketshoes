@@ -1,82 +1,48 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { MdAddShoppingCart } from 'react-icons/md';
 import { ProductList, Product, Button } from './styles';
+import { formatPrice } from '../../util/format';
+import api from '../../services/api';
 
-export default function Home() {
-  return (
-    <ProductList>
-      <Product>
-        <img
-          src="https://images.lojanike.com.br/290x290/produto/180462_1775262_20191029224607.png"
-          alt="dr"
-        />
-        <strong>Tênis Nike Zoom Pegasus Turbo Shield Masculino</strong>
-        <span>R$ 999,00</span>
+export default class Home extends Component {
+  constructor() {
+    super();
+    this.state = {
+      products: [],
+    };
+  }
 
-        <Button>
-          <div>
-            <MdAddShoppingCart size={16} />
-            <span>1</span>
-          </div>
-          <p>Adicionar ao Carrinho</p>
-        </Button>
-      </Product>
+  async componentDidMount() {
+    const response = await api.get('/products');
+    const data = response.data.map(product => ({
+      ...product,
+      priceFormatted: formatPrice(product.price),
+    }));
 
-      <Product>
-        <img
-          src="https://images.lojanike.com.br/290x290/produto/180462_1775262_20191029224607.png"
-          alt="dr"
-        />
-        <span className="name">
-          Tênis Nike Zoom Pegasus Turbo Shield Masculino
-        </span>
-        <strong>R$ 999,00</strong>
+    this.setState({ products: data });
+  }
 
-        <Button>
-          <div>
-            <MdAddShoppingCart size={14} />
-            <span>1</span>
-          </div>
-          <p>Adicionar ao Carrinho</p>
-        </Button>
-      </Product>
+  render() {
+    const { products } = this.state;
 
-      <Product>
-        <img
-          src="https://images.lojanike.com.br/290x290/produto/180462_1775262_20191029224607.png"
-          alt="dr"
-        />
-        <span className="name">
-          Tênis Nike Zoom Pegasus Turbo Shield Masculino
-        </span>
-        <strong>R$ 999,00</strong>
+    return (
+      <ProductList>
+        {products.map(product => (
+          <Product key={product.id}>
+            <img src={product.image} alt={product.title} />
+            <strong>{product.title}</strong>
+            <span>{product.priceFormatted}</span>
 
-        <Button>
-          <div>
-            <MdAddShoppingCart size={14} />
-            <span>1</span>
-          </div>
-          <p>Adicionar ao Carrinho</p>
-        </Button>
-      </Product>
-      <Product>
-        <img
-          src="https://images.lojanike.com.br/290x290/produto/180462_1775262_20191029224607.png"
-          alt="dr"
-        />
-        <span className="name">
-          Tênis Nike Zoom Pegasus Turbo Shield Masculino
-        </span>
-        <strong>R$ 999,00</strong>
-
-        <Button>
-          <div>
-            <MdAddShoppingCart size={14} />
-            <span>1</span>
-          </div>
-          <p>Adicionar ao Carrinho</p>
-        </Button>
-      </Product>
-    </ProductList>
-  );
+            <Button>
+              <div>
+                <MdAddShoppingCart size={16} />
+                <span>1</span>
+              </div>
+              <p>Adicionar ao Carrinho</p>
+            </Button>
+          </Product>
+        ))}
+      </ProductList>
+    );
+  }
 }
