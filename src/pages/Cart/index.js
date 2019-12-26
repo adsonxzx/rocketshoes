@@ -5,9 +5,21 @@ import {
   MdAddCircleOutline,
   MdRemoveCircleOutline,
 } from 'react-icons/md';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Container, ProductTable, Product, Footer, Button } from './styles';
+import { formatPrice } from '../../util/format';
+import * as cartActions from '../../store/modules/cart/action';
 
-export default function Cart() {
+function Cart({ cart, removeFromCart, updateAmount, total }) {
+  function increment(product) {
+    updateAmount(product.id, product.amount + 1);
+  }
+
+  function decrement(product) {
+    updateAmount(product.id, product.amount - 1);
+  }
+
   return (
     <Container>
       <ProductTable>
@@ -21,73 +33,39 @@ export default function Cart() {
           </tr>
         </thead>
         <tbody>
-          <Product>
-            <td>
-              <img
-                src="https://images.lojanike.com.br/290x290/produto/180462_1775262_20191029224607.png"
-                alt="dr"
-              />
-            </td>
+          {cart.map(product => (
+            <Product key={product.id}>
+              <td>
+                <img src={product.image} alt={product.title} />
+              </td>
 
-            <td>
-              <strong className="title">
-                Tênis Nike Zoom Pegasus Turbo Shield Masculino
-              </strong>
-              <span className="price">R$ 999,00</span>
-            </td>
+              <td>
+                <strong className="title">{product.title}</strong>
+                <span className="price">{formatPrice(product.price)}</span>
+              </td>
 
-            <td>
-              <div className="amount">
-                <button type="button">
-                  <MdRemoveCircleOutline size={18} color="#212529" />
-                </button>
-                <input type="number" readOnly value={2} />
-                <button type="button">
-                  <MdAddCircleOutline size={18} color="#212529" />
-                </button>
-              </div>
-            </td>
-            <td>
-              <span className="price"> R$ 999,00 </span>
-            </td>
-            <td>
-              <MdDelete size={20} />
-            </td>
-          </Product>
-
-          <Product>
-            <td>
-              <img
-                src="https://images.lojanike.com.br/290x290/produto/180462_1775262_20191029224607.png"
-                alt="dr"
-              />
-            </td>
-
-            <td>
-              <strong className="title">
-                Tênis Nike Zoom Pegasus Turbo Shield Masculino
-              </strong>
-              <span className="price">R$ 999,00</span>
-            </td>
-
-            <td>
-              <div className="amount">
-                <button type="button">
-                  <MdRemoveCircleOutline size={18} color="#212529" />
-                </button>
-                <input type="number" readOnly value={2} />
-                <button type="button">
-                  <MdAddCircleOutline size={18} color="#212529" />
-                </button>
-              </div>
-            </td>
-            <td>
-              <span className="price"> R$ 999,00 </span>
-            </td>
-            <td>
-              <MdDelete size={20} />
-            </td>
-          </Product>
+              <td>
+                <div className="amount">
+                  <button type="button" onClick={() => decrement(product)}>
+                    <MdRemoveCircleOutline size={18} color="#212529" />
+                  </button>
+                  <input type="number" readOnly value={product.amount} />
+                  <button type="button" onClick={() => increment(product)}>
+                    <MdAddCircleOutline size={18} color="#212529" />
+                  </button>
+                </div>
+              </td>
+              <td>
+                <span className="price">{product.subtotal}</span>
+              </td>
+              <td>
+                <MdDelete
+                  size={20}
+                  onClick={() => removeFromCart(product.id)}
+                />
+              </td>
+            </Product>
+          ))}
         </tbody>
       </ProductTable>
 
@@ -96,9 +74,26 @@ export default function Cart() {
         <Button>Finalizar Pedido</Button>
         <div>
           <span>Total</span>
-          <strong>R$1977,00</strong>
+          <strong>{total}</strong>
         </div>
       </Footer>
     </Container>
   );
 }
+
+const mapStateToProps = state => ({
+  cart: state.cart.map(product => ({
+    ...product,
+    subtotal: formatPrice(product.price * product.amount),
+  })),
+  total: formatPrice(
+    state.cart.reduce((total, product) => {
+      return total + product.price * product.amount;
+    }, 0)
+  ),
+});
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(cartActions, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);

@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
 import { MdShoppingBasket } from 'react-icons/md';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { HeaderContainer, Cart } from './styles';
 import logo from '../../assets/images/logo.svg';
 
-export default class Header extends Component {
+class Header extends Component {
   constructor() {
     super();
     this.state = {};
   }
 
   render() {
+    const { cartSize } = this.props;
     return (
       <HeaderContainer>
         <Link to="/">
@@ -20,7 +22,7 @@ export default class Header extends Component {
         <Cart to="/cart">
           <div>
             <strong>Meu carrinho</strong>
-            <span>3 items</span>
+            <span>{cartSize} items</span>
           </div>
           <MdShoppingBasket size={36} />
         </Cart>
@@ -28,3 +30,9 @@ export default class Header extends Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  cartSize: state.cart.length,
+});
+
+export default connect(mapStateToProps)(Header);
