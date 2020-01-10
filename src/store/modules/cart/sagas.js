@@ -1,13 +1,25 @@
-// Quando a UI disparar um evento, a funçao saga recebe esse evento faz a requisiçao
-// depois dispara uma action que ira evoluir o estado;
-import { call, put, takeLatest, all } from 'redux-saga/effects';
+import { call, select, put, takeLatest, all } from 'redux-saga/effects';
 import api from '../../../services/api';
-import { addToCartSuccess } from './action';
+import { addToCartSuccess, updateAmount } from './action';
+import { formatPrice } from '../../../util/format';
 
-function* addToCart(action) {
-  const response = yield call(api.get, `/products/${action.id}`);
+function* addToCart({ id }) {
+  const productExist = yield select(state => state.cart.find(p => p.id === id));
 
-  yield put(addToCartSuccess(response.data));
+  if (productExist) {
+    const amount = productExist.amount + 1;
+    yield put(updateAmount(id, amount));
+  } else {
+    const response = yield call(api.get, `/products/${id}`);
+
+    const data = {
+      ...response.data,
+      amount: 1,
+      priceFormatted: formatPrice(response.data.price),
+    };
+
+    yield put(addToCartSuccess(data));
+  }
 }
 
 export default all([takeLatest('@cart/ADD_REQUEST', addToCart)]);
