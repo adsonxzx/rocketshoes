@@ -5,30 +5,22 @@ import { connect } from 'react-redux';
 import { HeaderContainer, Cart } from './styles';
 import logo from '../../assets/images/logo.svg';
 
-class Header extends Component {
-  constructor() {
-    super();
-    this.state = {};
-  }
+function Header({ cartSize }) {
+  return (
+    <HeaderContainer>
+      <Link to="/">
+        <img className="logo" src={logo} alt="" />
+      </Link>
 
-  render() {
-    const { cartSize } = this.props;
-    return (
-      <HeaderContainer>
-        <Link to="/">
-          <img className="logo" src={logo} alt="" />
-        </Link>
-
-        <Cart to="/cart">
-          <div>
-            <strong>Meu carrinho</strong>
-            <span>{cartSize} items</span>
-          </div>
-          <MdShoppingBasket size={36} />
-        </Cart>
-      </HeaderContainer>
-    );
-  }
+      <Cart to="/cart">
+        <div>
+          <strong>Meu carrinho</strong>
+          <span>{cartSize} items</span>
+        </div>
+        <MdShoppingBasket size={36} />
+      </Cart>
+    </HeaderContainer>
+  );
 }
 
 const mapStateToProps = state => ({
