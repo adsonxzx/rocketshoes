@@ -30,37 +30,37 @@
       "id": 1,
       "title": "Tênis de Caminhada Leve Confortável",
       "price": 179.9,
-      "image": "https://rocketseat-cdn.s3-sa-east-1.amazonaws.com/modulo-redux/tenis1.jpg"
+      "image": "https://images.lojanike.com.br/320x320/produto/180446_1723371_20191008180520.png"
     },
     {
       "id": 2,
       "title": "Tênis VR Caminhada Confortável Detalhes Couro Masculino",
       "price": 139.9,
-      "image": "https://rocketseat-cdn.s3-sa-east-1.amazonaws.com/modulo-redux/tenis2.jpg"
+      "image": "https://images.lojanike.com.br/320x320/produto/180462_1775262_20191029224607.png"
     },
     {
       "id": 3,
-      "title": "Tênis Adidas Duramo Lite 2.0",
-      "price": 219.9,
-      "image": "https://rocketseat-cdn.s3-sa-east-1.amazonaws.com/modulo-redux/tenis3.jpg"
+      "title": "Tênis Nike Joyride Flyknit CC3 OBJ",
+      "price": 999.9,
+      "image": "https://images.lojanike.com.br/320x320/produto/136422_1824367_20191119125932.png"
     },
     {
       "id": 5,
       "title": "Tênis VR Caminhada Confortável Detalhes Couro Masculino",
       "price": 139.9,
-      "image": "https://rocketseat-cdn.s3-sa-east-1.amazonaws.com/modulo-redux/tenis2.jpg"
+      "image": "https://images.lojanike.com.br/320x320/produto/182427_1741308_20191008181525.png"
     },
     {
       "id": 6,
       "title": "Tênis Adidas Duramo Lite 2.0",
       "price": 219.9,
-      "image": "https://rocketseat-cdn.s3-sa-east-1.amazonaws.com/modulo-redux/tenis3.jpg"
+      "image": "https://images.lojanike.com.br/320x320/produto/188111_1689706_20190917112243.png"
     },
     {
       "id": 4,
       "title": "Tênis de Caminhada Leve Confortável",
       "price": 179.9,
-      "image": "https://rocketseat-cdn.s3-sa-east-1.amazonaws.com/modulo-redux/tenis1.jpg"
+      "image": "https://images.lojanike.com.br/320x320/produto/181767_1666691_20190909155240.png"
     }
   ]
 }
